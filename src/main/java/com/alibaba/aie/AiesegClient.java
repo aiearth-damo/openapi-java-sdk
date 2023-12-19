@@ -79,6 +79,7 @@ public class AiesegClient extends Client {
             put("idx", 1);
             put("src", finalSrc);
         }}));
+        data.put("ratio", request.getConfidence());
         data.put("area_ratio", request.getPixelThreshold());
         data.put("referShapeDataId", request.getFilterShapeDataId());
         data.put("refer_shape_wkt", request.getFilterShapeWkt());

@@ -27,6 +27,11 @@ public class CreateAiesegJobRequest {
     private String jobName;
 
     /**
+     * Integer实例变量，表示置信度。范围在 0-100之间。
+     */
+    private Integer confidence = 80;
+
+    /**
      * Long实例变量，表示项目ID。
      */
     private Long projectId;
@@ -60,6 +65,8 @@ public class CreateAiesegJobRequest {
     public void validate() {
         validateJobName();
 
+        validateConfidenceRange();
+
         warnIfFilterShapeDataIdAndWktExists();
 
         warnIfPanopticJobHasIgnoredFields();
@@ -67,6 +74,12 @@ public class CreateAiesegJobRequest {
         warnIfTextPromptHasMoreThanOneChar();
 
         warnIfPromptJobHasMoreThanOneField();
+    }
+
+    public void validateConfidenceRange() {
+        if (aiesegJobType == AiesegJobType.AIE_SEG_PANOPTIC && (confidence < 0 || confidence > 100)) {
+            throw new IllegalArgumentException("confidence 范围在 0-100 之间");
+        }
     }
 
     private void warnIfFilterShapeDataIdAndWktExists() {
@@ -124,6 +137,14 @@ public class CreateAiesegJobRequest {
 
     public void setJobName(String jobName) {
         this.jobName = jobName;
+    }
+
+    public Integer getConfidence() {
+        return confidence;
+    }
+
+    public void setConfidence(Integer confidence) {
+        this.confidence = confidence;
     }
 
     public Long getProjectId() {
