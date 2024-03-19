@@ -1,4 +1,4 @@
-import com.alibaba.aie.AiesegClient;
+import com.alibaba.aie.ExtClient;
 import com.alibaba.aie.params.AiesegJobType;
 import com.alibaba.aie.params.CreateAiesegJobRequest;
 
@@ -30,9 +30,9 @@ public class TestAieseg {
         create_aieseg_request.setTextPrompt(text_prompt);
 
 
-        AiesegClient aiesegClient = new AiesegClient(System.getenv("ALIYUN_AK_ID"),
+        ExtClient extClient = new ExtClient(System.getenv("ALIYUN_AK_ID"),
                 System.getenv("ALIYUN_AK_SECRET"));
-        aiesegClient.createAiesegJob(create_aieseg_request);
+        extClient.createAiesegJob(create_aieseg_request);
     }
 
     public static void testVisualPromopt() throws Exception {
@@ -47,9 +47,9 @@ public class TestAieseg {
         create_aieseg_request.setPixelThreshold(2);
         create_aieseg_request.setVisualPromptId("96401692670748344");
 
-        AiesegClient aiesegClient = new AiesegClient(System.getenv("ALIYUN_AK_ID"),
+        ExtClient extClient = new ExtClient(System.getenv("ALIYUN_AK_ID"),
                 System.getenv("ALIYUN_AK_SECRET"));
-        aiesegClient.createAiesegJob(create_aieseg_request);
+        extClient.createAiesegJob(create_aieseg_request);
     }
 
     public static void testPanoptic() throws Exception {
@@ -62,8 +62,8 @@ public class TestAieseg {
         create_aieseg_request.setInput(rasterParam);
 
 
-        AiesegClient aiesegClient = new AiesegClient(System.getenv("ALIYUN_AK_ID"),
+        ExtClient extClient = new ExtClient(System.getenv("ALIYUN_AK_ID"),
                 System.getenv("ALIYUN_AK_SECRET"));
-        aiesegClient.createAiesegJob(create_aieseg_request);
+        extClient.createAiesegJob(create_aieseg_request);
     }
 }
