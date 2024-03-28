@@ -15,7 +15,7 @@ public abstract class BasePublishLocalDoubleFileRequest extends BasePublishLocal
      */
     private String mainFilePath;
     /**
-     * 附件文件路径，主要是 ige, rpb, rpv/_rpc.txt, tfw文件
+     * 附件文件路径，主要是 ige, rpb, rpc/_rpc.txt, tfw文件
      */
     private String attachFilePath;
 
@@ -37,6 +37,10 @@ public abstract class BasePublishLocalDoubleFileRequest extends BasePublishLocal
 
     @Override
     public ProgressListener getProgressListener() {
-        return new UploadProgressListener(this.mainFilePath.substring(0, this.mainFilePath.lastIndexOf(".")));
+        if (null != this.getProgressListener()) {
+            return this.getProgressListener();
+        } else {
+            return new UploadProgressListener(this.mainFilePath.substring(0, this.mainFilePath.lastIndexOf(".")));
+        }
     }
 }

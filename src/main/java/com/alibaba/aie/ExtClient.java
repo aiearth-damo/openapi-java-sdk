@@ -26,6 +26,7 @@ import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.event.ProgressListener;
 import com.aliyun.oss.model.UploadFileRequest;
 import com.aliyun.teaopenapi.models.Config;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -35,6 +36,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -337,7 +339,7 @@ public class ExtClient extends Client {
                                       Integer taskNum,
                                       ProgressListener progressListener) throws Throwable {
         String mainFileUri = doUpload(mainFilePath, dataType, fileExt, partSize, taskNum, null, progressListener);
-        String prevFileName = mainFilePath.substring(mainFilePath.lastIndexOf("/") + 1);
+        String prevFileName = FilenameUtils.getName(mainFileUri);
 
         String attachFileUri = doUpload(attachFilePath, dataType, attachFileExt, partSize, taskNum, prevFileName, progressListener);
 
@@ -351,6 +353,12 @@ public class ExtClient extends Client {
                             Integer taskNum,
                             String prevFileName,
                             ProgressListener progressListener) throws Throwable {
+
+        // check file exsitance
+        if (!new File(localFilePath).exists()) {
+            throw new Exception("file not found: " + localFilePath);
+        }
+
         StsToken stsToken = ApiHelper.getStsToken(this, dataType, fileExt, prevFileName);
 
         OSS client = new OSSClientBuilder()
